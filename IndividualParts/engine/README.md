@@ -1,1 +1,0 @@
-The two engines are similar. The first one calls the second one and sees what is the most advantageous move for the player. The second one chooses the best move for the opponent based on the material they can gain in one move.
