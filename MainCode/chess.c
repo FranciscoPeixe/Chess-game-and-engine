@@ -28,11 +28,15 @@ void engineBlackKnight(char board[8][8], int i, int j);
 void engineBlackBishop(char board[8][8], int i, int j);
 void engineBlackRook(char board[8][8], int i, int j);
 void engineBlackPawn(char board[8][8], int i, int j);
+void engineBlackQueenCross(char board[8][8], int i, int j);
+void engineBlackQueenDiagonals(char board[8][8], int i, int j);
 void engineWhiteKing(char board[8][8], int i, int j);
 void engineWhiteKnight(char board[8][8], int i, int j);
 void engineWhiteBishop(char board[8][8], int i, int j);
 void engineWhiteRook(char board[8][8], int i, int j);
 void engineWhitePawn(char board[8][8], int i, int j);
+void engineWhiteQueenCross(char board[8][8], int i, int j);
+void engineWhiteQueenDiagonals(char board[8][8], int i, int j);
 void engine1(char board[8][8]);
 void engine1BlackKing(char board[8][8], int i, int j);
 void engine1BlackKnight(char board[8][8], int i, int j);
@@ -68,72 +72,6 @@ int AdvantageOponent = 0;
 int diferenceInAdvantage = -100;
 int vant = 0;
 int illegalMove = 0;
-
-const float vantPawn[8][8] = {
-   /*8*/ {10.0f, 10.0f, 10.0f, 10.0f, 10.0f, 10.0f, 10.0f, 10.0f},
-   /*7*/ { 3.5f,  4.0f,  4.0f,  4.0f,  4.0f,  4.0f,  4.0f,  3.5f},
-   /*6*/ { 0.6f,  0.9f,  0.9f,  0.9f,  0.9f,  0.9f,  0.9f,  0.6f},
-   /*5*/ { 0.2f,  0.3f,  0.4f,  0.5f,  0.5f,  0.3f,  0.3f,  0.2f},
-   /*4*/ { 0.0f,  0.1f,  0.1f,  0.2f,  0.2f,  0.1f,  0.1f,  0.0f},
-   /*3*/ { 0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f},
-   /*2*/ { 0.0f,  0.1f,  0.1f,  0.1f,  0.1f,  0.1f,  0.1f,  0.0f},
-   /*1*/ { 0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f}
-};
-
-const float vantKnight[8][8] = {
-   /*8*/ { 0.1f,  0.1f,  0.1f,  0.2f,  0.2f,  0.1f,  0.1f,  0.1f},
-   /*7*/ { 0.5f,  0.5f,  0.5f,  0.6f,  0.6f,  0.5f,  0.5f,  0.5f},
-   /*6*/ { 0.6f,  0.9f,  0.9f,  0.9f,  0.9f,  0.9f,  0.9f,  0.6f},
-   /*5*/ { 0.3f,  0.4f,  0.5f,  0.7f,  0.7f,  0.5f,  0.4f,  0.3f},
-   /*4*/ { 0.3f,  0.3f,  0.4f,  0.4f,  0.4f,  0.4f,  0.3f,  0.3f},
-   /*3*/ { 0.2f,  0.2f,  0.2f,  0.3f,  0.3f,  0.2f,  0.2f,  0.2f},
-   /*2*/ { 0.1f,  0.2f,  0.2f,  0.3f,  0.3f,  0.2f,  0.2f,  0.1f},
-   /*1*/ { 0.0f,  0.1f,  0.1f,  0.1f,  0.1f,  0.1f,  0.1f,  0.0f}
-};          /*a*/  /*b*/  /*c*/  /*d*/  /*e*/ /*f*/  /*g*/  /*h*/ 
-
-const float vantBishop[8][8] = {
-   /*8*/ {-0.4f, -0.4f, -0.4f, -0.4f, -0.4f, -0.4f, -0.4f, -0.4f},
-   /*7*/ { 0.5f,  0.5f,  0.5f,  0.5f,  0.5f,  0.5f,  0.5f,  0.5f},
-   /*6*/ { 0.5f,  0.5f,  0.5f,  0.5f,  0.5f,  0.5f,  0.5f,  0.5f},
-   /*5*/ { 0.5f,  0.5f,  0.6f,  0.6f,  0.6f,  0.6f,  0.5f,  0.5f},
-   /*4*/ { 0.5f,  0.5f,  0.8f,  0.6f,  0.6f,  0.8f,  0.5f,  0.5f},
-   /*3*/ { 0.5f,  0.8f,  0.6f,  0.6f,  0.6f,  0.6f,  0.8f,  0.5f},
-   /*2*/ { 0.6f,  0.8f,  0.8f,  0.7f,  0.7f,  0.8f,  0.8f,  0.6f},
-   /*1*/ { 0.6f,  0.6f,  0.6f,  0.5f,  0.5f,  0.6f,  0.6f,  0.6f}
-};          /*a*/  /*b*/  /*c*/  /*d*/  /*e*/ /*f*/  /*g*/  /*h*/ 
-
-const float vantRook[8][8] = {
-   /*8*/ { 1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f},
-   /*7*/ { 1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f},
-   /*6*/ { 1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f},
-   /*5*/ { 1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f},
-   /*4*/ { 1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.4f,  1.3f,  1.3f},
-   /*3*/ { 1.1f,  1.1f,  1.0f,  1.0f,  1.0f,  1.0f,  1.1f,  1.1f},
-   /*2*/ { 1.1f,  1.1f,  1.0f,  1.1f,  1.1f,  1.0f,  1.1f,  1.1f},
-   /*1*/ { 1.1f,  1.1f,  1.0f,  1.2f,  1.2f,  1.0f,  1.1f,  1.1f}
-};          /*a*/  /*b*/  /*c*/  /*d*/  /*e*/ /*f*/  /*g*/  /*h*/ 
-
-const float vantQueen[8][8] = {
-   /*8*/ { 2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f},
-   /*7*/ { 2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f},
-   /*6*/ { 2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f},
-   /*5*/ { 2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f},
-   /*4*/ { 2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f},
-   /*3*/ { 2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f},
-   /*2*/ { 2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f},
-   /*2*/ { 2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f,  2.3f}
-};          /*a*/  /*b*/  /*c*/  /*d*/  /*e*/ /*f*/  /*g*/  /*h*/ 
-
-const float vantKing[8][8] = {
-   /*8*/ { 0.1f,  0.1f,  0.1f,  0.1f,  0.1f,  0.1f,  0.1f,  0.1f},
-   /*7*/ { 0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f},
-   /*6*/ { 0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f},
-   /*5*/ { 0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f},
-   /*4*/ { 0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f},
-   /*3*/ { 0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f},
-   /*2*/ { 0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f},
-   /*1*/ { 0.1f,  0.2f,  0.1f, -0.3f, -0.1f,  0.1f,  0.2f,  0.1f}
-};          /*a*/  /*b*/  /*c*/  /*d*/  /*e*/ /*f*/  /*g*/  /*h*/ 
 
 int main()
 {
@@ -542,15 +480,15 @@ void squares(char board[8][8]) //define as squares iniciais
         printf("%d. |", 8 - i);
         for(int j = 0; j < 8; j++)//colunas
         {
-if(board[i][j] == toupper(board[i][j]))
-{
-	printf(RED" %c "RESET, board[i][j]);
-}
-else
-{
-            printf(GREEN" %c "RESET, toupper(board[i][j]));
-}
-printf("|");
+            if(board[i][j] == toupper(board[i][j]))
+            {
+                printf(RED" %c "RESET, board[i][j]);
+            }
+            else
+            {
+                        printf(GREEN" %c "RESET, toupper(board[i][j]));
+            }
+            printf("|");
        }
         printf("\n");
         (i < 4)?printf("|  | "):printf("|||| ");
@@ -1358,57 +1296,9 @@ void engine(char board[8][8])
                     engineBlackBishop(board, i, j);
                     engineBlackRook(board, i, j);
                     engineBlackPawn(board, i, j);
+                    engineBlackQueenCross(board, i, j);
+                    engineBlackQueenDiagonals(board, i, j);
                 }
-                /*
-                if(board[i][j] == 'P')
-                {
-                    whiteAdvantage += vantPeao[i][j]; 
-                }
-                if(board[i][j] == 'p')
-                {
-                    blackAdvantage += vantPeao[7-i][j]; 
-                }
-                if(board[i][j] == 'C')
-                {
-                    whiteAdvantage += vantCavalo[i][j]; 
-                }
-                if(board[i][j] == 'c')
-                {
-                    blackAdvantage += vantCavalo[7-i][j]; 
-                }
-                if(board[i][j] == 'B')
-                {
-                    whiteAdvantage += vantBispo[i][j];
-                }
-                if(board[i][j] == 'b')
-                {
-                    blackAdvantage += vantBispo[7-i][j];
-                }
-                if(board[i][j] == 'T')
-                {
-                    whiteAdvantage += vantTorre[i][j];
-                }
-                if(board[i][j] == 't')
-                {
-                    blackAdvantage += vantTorre[7-i][j];
-                }
-                if(board[i][j] == 'D')
-                {
-                    whiteAdvantage += vantDama[i][j];
-                }
-                if(board[i][j] == 'd')
-                {
-                    blackAdvantage += vantDama[7-i][j];
-                }
-                if(board[i][j] == 'R')
-                {
-                    whiteAdvantage += vantRei[i][j];
-                }
-                if(board[i][j] == 'r')
-                {
-                    blackAdvantage += vantRei[7-i][j];
-                }
-                */
             }
         }
     }
@@ -1427,57 +1317,9 @@ void engine(char board[8][8])
                     engineWhiteBishop(board, i, j);
                     engineWhiteRook(board, i, j);
                     engineWhitePawn(board, i, j);
+                    engineWhiteQueenCross(board, i, j);
+                    engineWhiteQueenDiagonals(board, i, j);
                 }
-                /*
-                if(board[i][j] == 'P')
-                {
-                    whiteAdvantage += vantPeao[i][j]; 
-                }
-                if(board[i][j] == 'p')
-                {
-                    blackAdvantage += vantPeao[7-i][j];
-                }
-                if(board[i][j] == 'C')
-                {
-                    whiteAdvantage += vantCavalo[i][j]; 
-                }
-                if(board[i][j] == 'c')
-                {
-                    blackAdvantage += vantCavalo[7-i][j]; 
-                }
-                if(board[i][j] == 'B')
-                {
-                    whiteAdvantage += vantBispo[i][j];
-                }
-                if(board[i][j] == 'b')
-                {
-                    blackAdvantage += vantBispo[7-i][j];
-                }
-                if(board[i][j] == 'T')
-                {
-                    whiteAdvantage += vantTorre[i][j];
-                }
-                if(board[i][j] == 't')
-                {
-                    blackAdvantage += vantTorre[7-i][j];
-                }
-                if(board[i][j] == 'D')
-                {
-                    whiteAdvantage += vantDama[i][j];
-                }
-                if(board[i][j] == 'd')
-                {
-                    blackAdvantage += vantDama[7-i][j];
-                }
-                if(board[i][j] == 'R')
-                {
-                    whiteAdvantage += vantRei[i][j];
-                }
-                if(board[i][j] == 'r')
-                {
-                    blackAdvantage += vantRei[7-i][j];
-                }
-                */
             }
         }
     }
@@ -1707,7 +1549,7 @@ void engineBlackKnight(char board[8][8], int i, int j)
 
 void engineBlackBishop(char board[8][8], int i, int j)
 {
-    if(board[i][j] == 'b' || board[i][j] == 'd')
+    if(board[i][j] == 'b')
     {
         for(int c = -1; c < 2; c+=2)
         {
@@ -1936,9 +1778,240 @@ void engineBlackBishop(char board[8][8], int i, int j)
     }    
 }
 
+void engineBlackQueenDiagonals(char board[8][8], int i, int j)
+{
+    if(board[i][j] == 'd')
+    {
+        for(int c = -1; c < 2; c+=2)
+        {
+            for(int d = -1; d < 2; d+=2)
+            {
+                int squaresAVerificarVertical = 0;
+                int squaresAVerificarHorizontal  = 0;
+                if(c == 1)
+                {
+                    squaresAVerificarVertical = 7-i;
+                }
+                else
+                {
+                    squaresAVerificarVertical = i;
+                }
+                if(d == 1)
+                {
+                    squaresAVerificarHorizontal = 7-j;
+                }
+                else
+                {
+                    squaresAVerificarHorizontal = j;
+                }
+                if(board[i+c][j+d] == toupper(board[i+c][j+d]) && board[i+c][j+d] != ' ')
+                {
+                    switch(board[i+c][j+d])
+                    {
+                        case 'P':
+                            vant = 1;
+                            board[i+c][j+d] = 'd';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'd';
+                            board[i+c][j+d] = 'P';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                blackAdvantage = vant;
+                                whiteAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        case 'C':
+                            vant = 3;
+                            board[i+c][j+d] = 'd';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'd';
+                            board[i+c][j+d] = 'C';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                blackAdvantage = vant;
+                                whiteAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        case 'B':
+                            vant = 3;
+                            board[i+c][j+d] = 'd';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'd';
+                            board[i+c][j+d] = 'B';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                blackAdvantage = vant;
+                                whiteAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        case 'T':
+                            vant = 5;
+                            board[i+c][j+d] = 'd';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'd';
+                            board[i+c][j+d] = 'T';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                blackAdvantage = vant;
+                                whiteAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        case 'D':
+                            vant = 9;
+                            board[i+c][j+d] = 'd';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'd';
+                            board[i+c][j+d] = 'D';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                blackAdvantage = vant;
+                                whiteAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        case ' ':
+                            vant = 0;
+                            board[i+c][j+d] = 'd';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'd';
+                            board[i+c][j+d] = ' ';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                blackAdvantage = vant;
+                                whiteAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        default:
+                            diferenceInAdvantage = diferenceInAdvantage;
+                            break; 
+                    }
+                }
+                else
+                {
+                    for(int a = 2; board[i+c*(a-1)][j+d*(a-1)] == ' ' && a >=2 && a <= squaresAVerificarHorizontal && a <= squaresAVerificarVertical; a++)
+                    {
+                        if(board[i+c*a][j+d*a] != ' ')//diagonal esquerda e cima
+                        {
+                            if(board[i+c*a][j+d*a] == toupper(board[i+c*a][j+d*a]))
+                            {
+                                switch(board[i+c*a][j+d*a])
+                                {
+                                    case 'P':
+                                        vant = 1;
+                                        board[i+c*a][j+d*a] = 'd';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'd';
+                                        board[i+c*a][j+d*a] = 'P';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            blackAdvantage = vant;
+                                            whiteAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    case 'C':
+                                        vant = 3;
+                                        board[i+c*a][j+d*a] = 'd';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'd';
+                                        board[i+c*a][j+d*a] = 'C';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            blackAdvantage = vant;
+                                            whiteAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    case 'B':
+                                        vant = 3;
+                                        board[i+c*a][j+d*a] = 'd';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'd';
+                                        board[i+c*a][j+d*a] = 'B';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            blackAdvantage = vant;
+                                            whiteAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    case 'T':
+                                        vant = 5;
+                                        board[i+c*a][j+d*a] = 'd';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'd';
+                                        board[i+c*a][j+d*a] = 'T';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            blackAdvantage = vant;
+                                            whiteAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    case 'D':
+                                        vant = 9;
+                                        board[i+c*a][j+d*a] = 'd';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'd';
+                                        board[i+c*a][j+d*a] = 'D';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            blackAdvantage = vant;
+                                            whiteAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    default:
+                                        vant = 0;
+                                        board[i+c*a][j+d*a] = 'd';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'd';
+                                        board[i+c*a][j+d*a] = ' ';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            blackAdvantage = vant;
+                                            whiteAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+    }    
+}
+
 void engineBlackRook(char board[8][8], int i, int j)
 {
-    if(board[i][j] == 't' || board[i][j] == 'd')
+    if(board[i][j] == 't')
     {
         for(int z = -1; z < 2; z+=2)
         {
@@ -2444,6 +2517,411 @@ void engineBlackPawn(char board[8][8], int i, int j)
     }
 }
 
+void engineBlackQueenCross(char board[8][8], int i, int j)
+{
+    if(board[i][j] == 'd')
+    {
+        for(int z = -1; z < 2; z+=2)
+        {
+            if(board[i+z][j] == toupper(board[i+z][j]) && board[i+z][j] != ' ')
+            {
+                switch(board[i+z][j])
+                {
+                    case 'P':
+                        vant = 1;
+                        board[i+z][j] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i+z][j] = 'P';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'C':
+                        vant = 3;
+                        board[i+z][j] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i+z][j] = 'C';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'B':
+                        vant = 3;
+                        board[i+z][j] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i+z][j] = 'B';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'T':
+                        vant = 5;
+                        board[i+z][j] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i+z][j] = 'T';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'D':
+                        vant = 9;
+                        board[i+z][j] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i+z][j] = 'D';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case ' ':
+                        vant = 0;
+                        board[i+z][j] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i+z][j] = ' ';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    default:
+                        diferenceInAdvantage = diferenceInAdvantage;
+                        break; 
+                }
+            }
+            for(int a = 2; board[i+z*(a-1)][j] == ' ' && a <= 7; a++)
+            {
+                if(board[i+z*a][j] != ' ')
+                {
+                    if(board[i+z*a][j] == toupper(board[i+z*a][j]))
+                    {
+                        switch(board[i+z*a][j])
+                        {
+                            case 'P':
+                                vant = 1;
+                                board[i+z*a][j] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i+z*a][j] = 'P';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'C':
+                                vant = 3;
+                                board[i+z*a][j] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i+z*a][j] = 'C';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'B':
+                                vant = 3;
+                                board[i+z*a][j] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i+z*a][j] = 'B';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'T':
+                                vant = 5;
+                                board[i+z*a][j] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i+z*a][j] = 'T';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'D':
+                                vant = 9;
+                                board[i+z*a][j] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i+z*a][j] = 'D';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            default:
+                                vant = 0;
+                                board[i+z*a][j] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i+z*a][j] = ' ';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;  
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+
+        for(int z = -1; z < 2; z+=2)
+        {
+            if(board[i][j+z] == toupper(board[i][j+z]) && board[i][j+z] != ' ')
+            {
+                switch(board[i][j+z])
+                {
+                    case 'P':
+                        vant = 1;
+                        board[i][j+z] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i][j+z] = 'P';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'C':
+                        vant = 3;
+                        board[i][j+z] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i][j+z] = 'C';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'B':
+                        vant = 3;
+                        board[i][j+z] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i][j+z] = 'B';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'T':
+                        vant = 5;
+                        board[i][j+z] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i][j+z] = 'T';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'D':
+                        vant = 9;
+                        board[i][j+z] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i][j+z] = 'D';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    default:
+                        vant = 0;
+                        board[i][j+z] = 'd';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'd';
+                        board[i][j+z] = ' ';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            blackAdvantage = vant;
+                            whiteAdvantage = AdvantageOponent;
+                        }
+                        break;
+                }
+            }
+            for(int a = 2; board[i][j+z*(a-1)] == ' ' && a <= 7; a++)
+            {
+                if(board[i][j+z*a] != ' ')
+                {
+                    if(board[i][j+z*a] == toupper(board[i][j+z*a]))
+                    {
+                        switch(board[i][j+z*a])
+                        {
+                            case 'P':
+                                vant = 1;
+                                board[i][j+z*a] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i][j+z*a] = 'P';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'C':
+                                vant = 3;
+                                board[i][j+z*a] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i][j+z*a] = 'C';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'B':
+                                vant = 3;
+                                board[i][j+z*a] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i][j+z*a] = 'B';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'T':
+                                vant = 5;
+                                board[i][j+z*a] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i][j+z*a] = 'T';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'D':
+                                vant = 9;
+                                board[i][j+z*a] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'd';
+                                board[i][j+z*a] = 'D';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            default:
+                                vant = 0;
+                                board[i][j+z*a] = 'd';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 't';
+                                board[i][j+z*a] = ' ';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    blackAdvantage = vant;
+                                    whiteAdvantage = AdvantageOponent;
+                                }
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+    }
+}
+
 void engineWhiteKing(char board[8][8], int i, int j)
 {
     if(board[i][j] == 'R')
@@ -2669,7 +3147,7 @@ void engineWhiteKnight(char board[8][8], int i, int j)
 
 void engineWhiteBishop(char board[8][8], int i, int j)
 {
-    if(board[i][j] == 'B' || board[i][j] == 'D')
+    if(board[i][j] == 'B')
     {
         for(int c = -1; c < 2; c+=2)
         {
@@ -2901,9 +3379,243 @@ void engineWhiteBishop(char board[8][8], int i, int j)
     } 
 }
 
+void engineWhiteQueenDiagonals(char board[8][8], int i, int j)
+{
+    if(board[i][j] == 'D')
+    {
+        for(int c = -1; c < 2; c+=2)
+        {
+            for(int d = -1; d < 2; d+=2)
+            {
+                int squaresAVerificarVertical = 0;
+                int squaresAVerificarHorizontal  = 0;
+                if(c == 1)
+                {
+                    squaresAVerificarVertical = 7-i;
+                }
+                else
+                {
+                    squaresAVerificarVertical = i;
+                }
+                if(d == 1)
+                {
+                    squaresAVerificarHorizontal = 7-j;
+                }
+                else
+                {
+                    squaresAVerificarHorizontal = j;
+                }
+                if(board[i+c][j+d] != toupper(board[i+c][j+d]) && board[i+c][j+d] != ' ')
+                {
+                    switch(board[i+c][j+d])
+                    {
+                        case 'p':
+                            vant = 1;
+                            board[i+c][j+d] = 'D';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'D';
+                            board[i+c][j+d] = 'p';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                whiteAdvantage = vant;
+                                blackAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        case 'c':
+                            vant = 3;
+                            board[i+c][j+d] = 'D';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'D';
+                            board[i+c][j+d] = 'c';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                whiteAdvantage = vant;
+                                blackAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        case 'b':
+                            vant = 3;
+                            board[i+c][j+d] = 'D';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'D';
+                            board[i+c][j+d] = 'b';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                whiteAdvantage = vant;
+                                blackAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        case 't':
+                            vant = 5;
+                            board[i+c][j+d] = 'D';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'D';
+                            board[i+c][j+d] = 't';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                whiteAdvantage = vant;
+                                blackAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        case 'd':
+                            vant = 9;
+                            board[i+c][j+d] = 'D';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'D';
+                            board[i+c][j+d] = 'd';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                whiteAdvantage = vant;
+                                blackAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        case ' ':
+                            vant = 0;
+                            board[i+c][j+d] = 'D';
+                            board[i][j] = ' ';
+                            engine1(board);
+                            board[i][j] = 'D';
+                            board[i+c][j+d] = ' ';
+                            if(vant - AdvantageOponent > diferenceInAdvantage)
+                            {
+                                diferenceInAdvantage = vant - AdvantageOponent;
+                                whiteAdvantage = vant;
+                                blackAdvantage = AdvantageOponent;
+                            }
+                            break;
+                        default:
+                            diferenceInAdvantage = diferenceInAdvantage;
+                            break; 
+                    }
+                }
+                else
+                {
+                    for(int a = 2; board[i+c*(a-1)][j+d*(a-1)] == ' ' && a >=2 && a <= squaresAVerificarHorizontal && a <= squaresAVerificarVertical; a++)
+                    {
+                        if(board[i+c*a][j+d*a] != ' ')//diagonal esquerda e cima
+                        {
+                            if(board[i+c*a][j+d*a] != toupper(board[i+c*a][j+d*a]))
+                            {
+                                switch(board[i+c*a][j+d*a])
+                                {
+                                    case 'p':
+                                        vant = 1;
+                                        board[i+c*a][j+d*a] = 'D';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'D';
+                                        board[i+c*a][j+d*a] = 'p';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            whiteAdvantage = vant;
+                                            blackAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    case 'c':
+                                        vant = 3;
+                                        board[i+c*a][j+d*a] = 'D';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'D';
+                                        board[i+c*a][j+d*a] = 'c';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            whiteAdvantage = vant;
+                                            blackAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    case 'b':
+                                        vant = 3;
+                                        board[i+c*a][j+d*a] = 'D';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'D';
+                                        board[i+c*a][j+d*a] = 'b';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            whiteAdvantage = vant;
+                                            blackAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    case 't':
+                                        vant = 5;
+                                        board[i+c*a][j+d*a] = 'D';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'D';
+                                        board[i+c*a][j+d*a] = 't';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            whiteAdvantage = vant;
+                                            blackAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    case 'd':
+                                        vant = 9;
+                                        board[i+c*a][j+d*a] = 'D';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'D';
+                                        board[i+c*a][j+d*a] = 'd';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            whiteAdvantage = vant;
+                                            blackAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    case ' ':
+                                        vant = 0;
+                                        board[i+c*a][j+d*a] = 'D';
+                                        board[i][j] = ' ';
+                                        engine1(board);
+                                        board[i][j] = 'D';
+                                        board[i+c*a][j+d*a] = ' ';
+                                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                                        {
+                                            diferenceInAdvantage = vant - AdvantageOponent;
+                                            whiteAdvantage = vant;
+                                            blackAdvantage = AdvantageOponent;
+                                        }
+                                        break;
+                                    default:
+                                        diferenceInAdvantage = diferenceInAdvantage;
+                                        break; 
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+}
+
 void engineWhiteRook(char board[8][8], int i, int j)
 {
-    if(board[i][j] == 'T' || board[i][j] == 'D')
+    if(board[i][j] == 'T')
     {
         for(int z = -1; z < 2; z+=2)
         {
@@ -3288,6 +4000,420 @@ void engineWhiteRook(char board[8][8], int i, int j)
                                 board[i][j] = ' ';
                                 engine1(board);
                                 board[i][j] = 'T';
+                                board[i][j+z*a] = ' ';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            default:
+                                diferenceInAdvantage = diferenceInAdvantage;
+                                break; 
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+    }
+}
+
+void engineWhiteQueenCross(char board[8][8], int i, int j)
+{
+    if(board[i][j] == 'D')
+    {
+        for(int z = -1; z < 2; z+=2)
+        {
+            if(board[i+z][j] != toupper(board[i+z][j]) && board[i+z][j] != ' ')
+            {
+                switch(board[i+z][j])
+                {
+                    case 'p':
+                        vant = 1;
+                        board[i+z][j] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i+z][j] = 'p';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'c':
+                        vant = 3;
+                        board[i+z][j] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i+z][j] = 'c';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'b':
+                        vant = 3;
+                        board[i+z][j] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i+z][j] = 'b';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 't':
+                        vant = 5;
+                        board[i+z][j] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i+z][j] = 't';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'd':
+                        vant = 9;
+                        board[i+z][j] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i+z][j] = 'd';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case ' ':
+                        vant = 0;
+                        board[i+z][j] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i+z][j] = ' ';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    default:
+                        diferenceInAdvantage = diferenceInAdvantage;
+                        break; 
+                }
+            }
+            for(int a = 2; board[i+z*(a-1)][j] == ' ' && a <= 7; a++)
+            {
+                if(board[i+z*a][j] != ' ')
+                {
+                    if(board[i+z*a][j] != toupper(board[i+z*a][j]))
+                    {
+                        switch(board[i+z*a][j])
+                        {
+                            case 'p':
+                                vant = 1;
+                                board[i+z*a][j] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i+z*a][j] = 'p';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'c':
+                                vant = 3;
+                                board[i+z*a][j] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i+z*a][j] = 'c';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'b':
+                                vant = 3;
+                                board[i+z*a][j] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i+z*a][j] = 'b';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 't':
+                                vant = 5;
+                                board[i+z*a][j] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i+z*a][j] = 't';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'd':
+                                vant = 9;
+                                board[i+z*a][j] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i+z*a][j] = 'd';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case ' ':
+                                vant = 0;
+                                board[i+z*a][j] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i+z*a][j] = ' ';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            default:
+                                diferenceInAdvantage = diferenceInAdvantage;
+                                break; 
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+
+        for(int z = -1; z < 2; z+=2)
+        {
+            if(board[i][j+z] != toupper(board[i][j+z]) && board[i][j+z] != ' ')
+            {
+                switch(board[i][j+z])
+                {
+                    case 'p':
+                        vant = 1;
+                        board[i][j+z] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i][j+z] = 'p';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'c':
+                        vant = 3;
+                        board[i][j+z] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i][j+z] = 'c';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'b':
+                        vant = 3;
+                        board[i][j+z] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i][j+z] = 'b';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 't':
+                        vant = 5;
+                        board[i][j+z] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i][j+z] = 't';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case 'd':
+                        vant = 9;
+                        board[i][j+z] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i][j+z] = 'd';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    case ' ':
+                        vant = 0;
+                        board[i][j+z] = 'D';
+                        board[i][j] = ' ';
+                        engine1(board);
+                        board[i][j] = 'D';
+                        board[i][j+z] = ' ';
+                        if(vant - AdvantageOponent > diferenceInAdvantage)
+                        {
+                            diferenceInAdvantage = vant - AdvantageOponent;
+                            whiteAdvantage = vant;
+                            blackAdvantage = AdvantageOponent;
+                        }
+                        break;
+                    default:
+                        diferenceInAdvantage = diferenceInAdvantage;
+                        break; 
+                }
+            }
+            for(int a = 2; board[i][j+z*(a-1)] == ' ' && a <= 7; a++)
+            {
+                if(board[i][j+z*a] != ' ')
+                {
+                    if(board[i][j+z*a] == toupper(board[i][j+z*a]))
+                    {
+                        switch(board[i][j+z*a])
+                        {
+                            case 'p':
+                                vant = 1;
+                                board[i][j+z*a] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i][j+z*a] = 'p';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'c':
+                                vant = 3;
+                                board[i][j+z*a] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i][j+z*a] = 'c';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'b':
+                                vant = 3;
+                                board[i][j+z*a] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i][j+z*a] = 'b';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 't':
+                                vant = 5;
+                                board[i][j+z*a] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i][j+z*a] = 't';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case 'd':
+                                vant = 9;
+                                board[i][j+z*a] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
+                                board[i][j+z*a] = 'd';
+                                if(vant - AdvantageOponent > diferenceInAdvantage)
+                                {
+                                    diferenceInAdvantage = vant - AdvantageOponent;
+                                    whiteAdvantage = vant;
+                                    blackAdvantage = AdvantageOponent;
+                                }
+                                break;
+                            case ' ':
+                                vant = 0;
+                                board[i][j+z*a] = 'D';
+                                board[i][j] = ' ';
+                                engine1(board);
+                                board[i][j] = 'D';
                                 board[i][j+z*a] = ' ';
                                 if(vant - AdvantageOponent > diferenceInAdvantage)
                                 {
